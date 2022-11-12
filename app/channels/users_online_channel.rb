@@ -15,8 +15,6 @@ class UsersOnlineChannel < ApplicationCable::Channel
   end
 
   def speak(**data)
-    UserOnlineService.new(
-      user: current_user
-    ).perform
+    UserOnlineService.new(user: current_user).perform
   end
 end

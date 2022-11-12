@@ -23,14 +23,10 @@ class UserOnlineService
   end
 
   def broadcast_user_offline
-    ActionCable.server.broadcast "users_online_channel",
-      message: { user_offline: @user.nickname }
+    ActionCable.server.broadcast "users_online_channel",  message: { user_offline: @user.nickname }
   end
 
   def render_message
-    ApplicationController.renderer.render(partial: 'users/user_online', locals: {
-      user_online: @user
-    })
+    ApplicationController.renderer.render(partial: 'users/user_online', locals: { user_online: @user })
   end
-
 end
