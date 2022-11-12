@@ -1,6 +1,6 @@
 class RoomChannel < ApplicationCable::Channel
   def subscribed
-    logger.info "Subscribed to RoomChannel, roomId: #{params[:roomId]}"
+    # logger.info "Subscribed to RoomChannel, roomId: #{params[:roomId]}"
 
     @room = Room.find(params[:roomId])
 
@@ -10,14 +10,13 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
-    logger.info "Unsubscribed to RoomChannel"
+    # logger.info "Unsubscribed to RoomChannel"
 
     speak('message' => '* * * left the room * * *')
   end
 
   def speak(data)
-    logger.info "RoomChannel, speak: #{data.inspect}"
+    # logger.info "RoomChannel, speak: #{data.inspect}"
 
     MessageService.new(
       body: data['message'], room: @room, user: current_user

@@ -3,6 +3,7 @@ class RoomsController < ApplicationController
 
   def index
     @rooms = Room.all
+    @usersonline = User.where(online: true)
     @room = Room.new
   end
 
