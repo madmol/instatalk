@@ -18,12 +18,11 @@ class UserOnlineService
   private
 
   def broadcast_user_online
-    ActionCable.server.broadcast "users_online_channel",
-      message: render_message
+    ActionCable.server.broadcast "users_online_channel", message: render_message
   end
 
   def broadcast_user_offline
-    ActionCable.server.broadcast "users_online_channel",  message: { user_offline: @user.nickname }
+    ActionCable.server.broadcast "users_online_channel", message: { user_offline: @user.nickname }
   end
 
   def render_message
