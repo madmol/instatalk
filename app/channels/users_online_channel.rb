@@ -8,7 +8,7 @@ class UsersOnlineChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    sleep 3
+    sleep 5
     unless UserOnlineService.new(user: current_user).still_connected?
       current_user.update(online: false)
       speak
