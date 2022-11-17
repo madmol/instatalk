@@ -8,8 +8,8 @@ jQuery(document).on 'turbolinks:load', ->
 
     received: (data) ->
       # Called when there's incoming data on the websocket for this channel
-      if data['message']['user_offline']?
-        nickname = data['message']['user_offline']
-        $("#" + nickname + "").remove()
+      if data['info']['online'] == false
+        $("#user_id_#{data['info']['id']}).remove()
       else
-        $('#usersonline').append data['message']
+        # todo
+        # $('#usersonline').append data['message']

@@ -4,28 +4,28 @@ class UserOnlineService
   end
 
   def perform
-    @user.online? ? broadcast_user_online : broadcast_user_offline
-  end
-
-  def still_connected?
-    still_there = PresenceChannel.broadcast_to(@user, action: 'presence-check')
-
-    return true if still_there.is_a?(Integer) && still_there.positive?
-
-    false
+    if user_left?
+      @user.set_offline
+      broadcast_user_info
+    elsif @user.offline?
+      @user.set_online
+      broadcast_user_info
+    end
   end
 
   private
 
-  def broadcast_user_online
-    ActionCable.server.broadcast "users_online_channel", message: render_message
+  def user_left?
+    @user.online? && disconnected?
   end
 
-  def broadcast_user_offline
-    ActionCable.server.broadcast "users_online_channel", message: { user_offline: @user.nickname }
+  def disconnected?
+    PresenceChannel.broadcast_to(@user, action: 'presence-check').to_i.zero?
   end
 
-  def render_message
-    ApplicationController.renderer.render(partial: 'users/user_online', locals: { user_online: @user })
+  def broadcast_user_info
+    ActionCable.server.broadcast "users_online_channel", info: { id: @user.id,
+                                                                 nickname: @user.nickname,
+                                                                 online: @user.online? }
   end
 end
