@@ -5,6 +5,6 @@ class UsersOnlineChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    HandleOfflineJob.perform_at(5.seconds.from_now, current_user)
+    HandleOfflineJob.set(wait: 2.seconds).perform_later(current_user)
   end
 end

@@ -1,4 +1,4 @@
-jQuery(document).on 'turbolinks:load', ->
+jQuery(document).on "turbolinks:load", ->
   App.users_online = App.cable.subscriptions.create "PresenceChannel",
     connected: ->
       # Called when the subscription is ready for use on the server
