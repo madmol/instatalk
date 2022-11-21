@@ -8,13 +8,14 @@ jQuery(document).on "turbolinks:load", ->
 
     received: (data) ->
       # Called when there's incoming data on the websocket for this channel
-      if data["info"]["online"] == false
-        $("#user_id_#{data['info']['id']}").remove()
-      else
-        html =
-        """
-          <li id="user_id_#{data['info']['id']}" class="list-group-item">
-            #{data['info']['nickname']}
-          </li>
-        """
+      { id, nickname, online } = data.user
+
+      if online
+        html = """
+               <li id="user_id_#{id}" class="list-group-item">
+                 #{nickname}
+               </li>
+               """
         $(html).appendTo("#usersonline")
+      else
+        $("#user_id_#{id}").remove()

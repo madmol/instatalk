@@ -1,17 +1,12 @@
 class HandleOfflineJob < ApplicationJob
   queue_as :default
 
-  def perform(user)
-    @user = user
+  def perform(user_id)
+    user = User.find(user_id)
 
-    if disconnected?
-      UserOnlineService.new(user: @user).perform(set_offline_status = true)
+    if PresenceChannel.broadcast_to(user, action: "presence-check").to_i.zero?
+      user.update(online: false)
+      ActionCable.server.broadcast "users_online_channel", user: user.attributes.slice("id", "nickname", "online")
     end
-  end
-
-  private
-
-  def disconnected?
-    @user.online? && PresenceChannel.broadcast_to(@user, action: "presence-check").to_i.zero?
   end
 end

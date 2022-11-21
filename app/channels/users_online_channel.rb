@@ -1,10 +1,10 @@
 class UsersOnlineChannel < ApplicationCable::Channel
   def subscribed
     stream_from "users_online_channel"
-    UserOnlineService.new(user: current_user).perform
+    MakeUserOnlineService.(user: current_user) unless current_user.online?
   end
 
   def unsubscribed
-    HandleOfflineJob.set(wait: 5.seconds).perform_later(current_user)
+    MakeUserOfflineService.(user: current_user)
   end
 end
