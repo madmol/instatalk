@@ -1,24 +1,24 @@
-# README
+# Simple anonymous chat on Ruby on Rails
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Application works on ruby version 2.7.1 and Rails 5.1.
 
-Things you may want to cover:
+## Setup
 
-* Ruby version
+You need Redis server to be installed
 
-* System dependencies
+## Installation and running on local server
 
-* Configuration
+```
+git clone git@github.com:madmol/instatalk.git
+cd ./instatalk
+bundle
+bundle exec sidekiq
+rails s
+```
+Your application is running at:
+`
+http://localhost:3000/
+`
 
-* Database creation
 
-* Database initialization
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
